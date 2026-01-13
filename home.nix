@@ -82,12 +82,13 @@ in
       # Prompt configuration, if starship is disabled, this gets used
       if [[ -n "$SSH_CONNECTION" ]]; then
           host_display="@%m"
+          host_color="yellow"
       else
           host_display=""
+          host_color="green"
       fi
 
-      # Only set this fallback prompt if Starship is not active/rendering
-      PROMPT="[%F{green}%n''${host_display}%f:%F{cyan}%~%f]%# "
+      PROMPT="[%F{$host_color}%n''${host_display}%f:%F{cyan}%~%f]%# "
     '';
   };
 
