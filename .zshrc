@@ -1,3 +1,9 @@
+any-nix-shell zsh --info-right | source /dev/stdin
+
+function hm () {
+    home-manager --flake ~/dev/nix-home#vjacobs $@
+}
+
 function gir () {
     cd $(git rev-parse --show-cdup)
 }
@@ -45,7 +51,13 @@ if type "starship" > /dev/null; then
     eval "$(starship init zsh)"
 fi
 
-PROMPT='[%F{green}%n@%m%f:%F{cyan}%~%f]%# '
+if [[ -n "$SSH_CONNECTION" ]]; then
+    host_display="@%m"
+else
+    host_display=""
+fi
+
+PROMPT="[%F{green}%n${host_display}%f:%F{cyan}%~%f]%# "
 
 # vim mode
 set -o vi

@@ -5,11 +5,12 @@
   home.username = "victor";
   home.homeDirectory = "/Users/victor";
 
-  home.file.".vimrc".source = ./vimrc;
-  home.file.".zshrc".source = ./zshrc;
-  home.file.".editorconfig".source = ./editorconfig;
+  home.file.".vimrc".source = ./.vimrc;
+  home.file.".zshrc".source = ./.zshrc;
+  home.file.".editorconfig".source = ./.editorconfig;
 
   home.packages = with pkgs; [
+    git
     vim
     ripgrep
     jq
@@ -20,40 +21,54 @@
     diff-so-fancy
     tldr
     git
+    direnv
+    any-nix-shell
   ];
+
+  programs.home-manager.enable = true;
 
   programs.git = {
     enable = true;
-    userName = "Victor Jacobs";
-    userEmail = "victor@vjcbs.be";
 
-    signing.key = "B490B254BDB9D657B7D6695B1B14FF4E55A4EB54";
+    # signing.key = "B490B254BDB9D657B7D6695B1B14FF4E55A4EB54";
 
-    aliases = {
-      co = "checkout";
-      ci = "commit";
-      st = "status -sb";
-      br = "branch";
-      lo = "log --oneline";
-      dt = "difftool";
-      df = "diff";
-      h = "rev-parse HEAD";
-    };
+    settings = {
+      user = {
+        name = "Victor Jacobs";
+        email = "victor@vjcbs.be";
+      };
 
-    extraConfig = {
+      alias = {
+        co = "checkout";
+        h = "rev-parse HEAD";
+      };
+
       core = {
         pager = "diff-so-fancy | less --tabs=4 -RFX";
         editor = "vim";
       };
-      diff.tool = "vimdiff";
-      difftool.prompt = false;
+
       init = {
-        templatedir = "~/.git_template";
         defaultBranch = "main";
       };
+
       push.default = "current";
       url."git@github.com:".insteadOf = "https://github.com/";
       pull.rebase = false;
+    };
+  };
+
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks = {
+      "*.vjcbs.be" = {
+        user = "vjacobs";
+      };
+      "u459705.your-storagebox.de" = {
+        user = "u459705";
+        port = 23;
+      };
     };
   };
 
