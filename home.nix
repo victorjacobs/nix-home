@@ -1,31 +1,117 @@
 { config, pkgs, ... }:
 
 {
+  programs.home-manager.enable = true;
+
   # TODO this depends on operating system
   home.username = "victor";
   home.homeDirectory = "/Users/victor";
 
   home.file.".vimrc".source = ./.vimrc;
-  home.file.".zshrc".source = ./.zshrc;
   home.file.".editorconfig".source = ./.editorconfig;
 
   home.packages = with pkgs; [
-    git
     vim
     ripgrep
     jq
     yq-go
     eza
-    fzf
-    zoxide
     diff-so-fancy
     tldr
-    git
-    direnv
     any-nix-shell
+    kubectl
   ];
 
-  programs.home-manager.enable = true;
+  # $PATH
+  home.sessionPath = [
+    "$HOME/bin"
+    "$HOME/go/bin"
+  ];
+
+  # Environment variables
+  home.sessionVariables = {
+    EDITOR = "vim";
+    GOPATH = "$HOME/go";
+  };
+
+  programs.zsh = {
+    enable = true;
+
+    # vim mode
+    defaultKeymap = "viins"; # Equivalent to set -o vi
+
+    history = {
+      size = 1000000000;
+      save = 1000000000;
+      share = true;
+      append = true;
+      ignoreDups = true;
+      ignoreSpace = true;
+      expireDuplicatesFirst = true;
+      extended = true;
+    };
+
+    shellAliases = {
+      ls = "eza -l";
+      k = "kubectl";
+      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+    };
+
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    initExtra = ''
+      # any-nix-shell integration
+      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
+
+      # Custom Functions
+      function hm () {
+          home-manager --flake ~/dev/nix-home#vjacobs $@
+      }
+
+      function gir () {
+          cd $(git rev-parse --show-cdup)
+      }
+
+      # GPG TTY
+      export GPG_TTY=$(tty)
+
+      # Keybinding fixes for Vim mode (Backspace issues)
+      bindkey -v '^?' backward-delete-char
+
+      # Prompt configuration, if starship is disabled, this gets used
+      if [[ -n "$SSH_CONNECTION" ]]; then
+          host_display="@%m"
+      else
+          host_display=""
+      fi
+
+      # Only set this fallback prompt if Starship is not active/rendering
+      PROMPT="[%F{green}%n''${host_display}%f:%F{cyan}%~%f]%# "
+    '';
+  };
+
+  programs.starship = {
+    enable = false;
+    enableZshIntegration = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 
   programs.git = {
     enable = true;
