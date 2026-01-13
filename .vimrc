@@ -3,61 +3,6 @@ if &shell =~# 'fish$'
     set shell=sh
 endif
 
-" Install plug if it doesn't exist
-if empty(glob('~/.vim/autoload/plug.vim'))
-    let plugVersion = '0.10.0'
-    let plugChecksum = 'c91f91c7e56578ab7331c784b4bc764eccef774f'
-
-    let plugDownloadUrl = 'https://raw.githubusercontent.com/junegunn/vim-plug/' . plugVersion . '/plug.vim'
-    let remoteChecksum = systemlist('curl -s ' . plugDownloadUrl . ' | shasum | awk ''{print $1}''')[0]
-
-    if remoteChecksum != plugChecksum
-        echoerr 'Plug installation failed, checksums don''t match!'
-    else
-        echo 'Downloading plug...'
-        silent execute '!curl -sfLo ~/.vim/autoload/plug.vim --create-dirs' plugDownloadUrl
-        autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
-    endif
-endif
-
-call plug#begin()
-
-Plug 'vim-scripts/peaksea'
-Plug 'tpope/vim-commentary'
-Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-markdown'
-Plug 'dag/vim-fish'
-Plug 'scrooloose/nerdtree'
-Plug 'bronson/vim-visual-star-search'
-Plug 'elzr/vim-json'
-Plug 'editorconfig/editorconfig-vim'
-
-if has('mac')
-    Plug 'terryma/vim-expand-region'
-    Plug 'junegunn/fzf', { 'do': './install --bin' }
-    Plug 'junegunn/fzf.vim'
-    Plug 'terryma/vim-multiple-cursors'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-    Plug 'tpope/vim-fugitive'
-    Plug 'xuyuanp/nerdtree-git-plugin'
-    Plug 'mbbill/undotree'
-    Plug 'hashivim/vim-terraform'
-    Plug 'udalov/kotlin-vim'
-    Plug 'w0rp/ale'
-    Plug 'janko-m/vim-test'
-    Plug 'chrisbra/csv.vim'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'tpope/vim-unimpaired'
-    Plug 'jez/vim-github-hub'
-    Plug 'tpope/vim-endwise'
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'kien/ctrlp.vim'
-endif
-
-call plug#end()
-
 " Always show current position
 set ruler
 set updatetime=100

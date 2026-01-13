@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
@@ -7,11 +12,9 @@ in
 {
   programs.home-manager.enable = true;
 
-  home.file.".vimrc".source = ./.vimrc;
   home.file.".editorconfig".source = ./.editorconfig;
 
   home.packages = with pkgs; [
-    vim
     ripgrep
     jq
     yq-go
@@ -29,7 +32,6 @@ in
 
   # Environment variables
   home.sessionVariables = {
-    EDITOR = "vim";
     GOPATH = "$HOME/go";
   };
 
@@ -144,6 +146,54 @@ in
       url."git@github.com:".insteadOf = "https://github.com/";
       pull.rebase = false;
     };
+  };
+
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+    extraConfig = builtins.readFile ./.vimrc;
+    plugins =
+      with pkgs.vimPlugins;
+      [
+        vim-commentary
+        lightline-vim
+        auto-pairs
+        vim-markdown
+        nerdtree
+        vim-visual-star-search
+        vim-json
+        editorconfig-vim
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "peaksea";
+          src = pkgs.fetchFromGitHub {
+            owner = "vim-scripts";
+            repo = "peaksea";
+            rev = "2051d4e5384b94b4e258b059e959ffb5202dec11";
+            sha256 = "sha256-b+EQTh02DD9clqROhtwcdnOiVcnyYCJytHFoHv/6w4E=";
+          };
+        })
+      ]
+      ++ (
+        if isDarwin then
+          [
+            vim-expand-region
+            fzf-vim
+            vim-multiple-cursors
+            vim-gitgutter
+            vim-go
+            vim-fugitive
+            nerdtree-git-plugin
+            undotree
+            ale
+            csv-vim
+            vim-polyglot
+            vim-unimpaired
+            vim-endwise
+            ctrlp-vim
+          ]
+        else
+          [ ]
+      );
   };
 
   programs.ssh = {
