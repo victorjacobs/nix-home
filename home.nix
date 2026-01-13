@@ -18,7 +18,6 @@
     eza
     diff-so-fancy
     tldr
-    any-nix-shell
     kubectl
   ];
 
@@ -61,10 +60,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    initExtra = ''
-      # any-nix-shell integration
-      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
-
+    initContent = ''
       # Custom Functions
       function hm () {
           home-manager --flake ~/dev/nix-home#vjacobs $@
@@ -90,6 +86,11 @@
       # Only set this fallback prompt if Starship is not active/rendering
       PROMPT="[%F{green}%n''${host_display}%f:%F{cyan}%~%f]%# "
     '';
+  };
+
+  programs.nix-your-shell = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.starship = {
