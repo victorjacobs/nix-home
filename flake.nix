@@ -15,14 +15,32 @@
       ...
     }:
     let
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+      sharedModules = [
+        ./home.nix
+      ];
     in
     {
-      homeConfigurations."vjacobs" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      homeConfigurations = {
+        "vjacobs-mac" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          modules = sharedModules ++ [
+            {
+              home.username = "victor";
+              home.homeDirectory = "/Users/victor";
+            }
+          ];
+        };
 
-        modules = [ ./home.nix ];
+        "vjacobs-linux" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = sharedModules ++ [
+            {
+              home.username = "vjacobs";
+              home.homeDirectory = "/home/vjacobs";
+            }
+          ];
+        };
+
       };
     };
 }

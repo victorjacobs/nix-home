@@ -1,11 +1,11 @@
 { config, pkgs, ... }:
 
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
+in
 {
   programs.home-manager.enable = true;
-
-  # TODO this depends on operating system
-  home.username = "victor";
-  home.homeDirectory = "/Users/victor";
 
   home.file.".vimrc".source = ./.vimrc;
   home.file.".editorconfig".source = ./.editorconfig;
@@ -53,7 +53,8 @@
     shellAliases = {
       ls = "eza -l";
       k = "kubectl";
-      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+      tailscale =
+        if isDarwin then "/Applications/Tailscale.app/Contents/MacOS/Tailscale" else "tailscale";
     };
 
     enableCompletion = true;
@@ -63,7 +64,7 @@
     initContent = ''
       # Custom Functions
       function hm () {
-          home-manager --flake ~/dev/nix-home#vjacobs $@
+          home-manager --flake ~/dev/nix-home#vjacobs-${if isDarwin then "mac" else "linux"} $@
       }
 
       function gir () {
