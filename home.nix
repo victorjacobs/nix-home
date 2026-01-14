@@ -33,6 +33,7 @@ in
   # Environment variables
   home.sessionVariables = {
     GOPATH = "$HOME/go";
+    SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
   };
 
   programs.zsh = {
