@@ -137,7 +137,6 @@ in
 
       core = {
         pager = "diff-so-fancy | less --tabs=4 -RFX";
-        editor = "vim";
       };
 
       init = {
@@ -150,8 +149,46 @@ in
     };
   };
 
-  programs.vim = {
+  programs.neovim = {
     enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+
+    plugins = with pkgs.vimPlugins; [
+      nvim-autopairs
+    ];
+
+    extraLuaConfig = ''
+      require("nvim-autopairs").setup {}
+
+      vim.opt.cursorline = true
+      vim.opt.tabstop = 4
+      vim.opt.shiftwidth = 4
+      vim.opt.expandtab = true
+      vim.opt.mouse = ""
+      vim.opt.scrolloff = 7
+      vim.opt.ignorecase = true
+      vim.opt.smartcase = true
+      vim.opt.breakindent = true
+
+      -- Return to last edit position when opening files
+      vim.api.nvim_create_autocmd("BufReadPost", {
+        pattern = "*",
+        callback = function()
+          local mark = vim.api.nvim_buf_get_mark(0, '"')
+          local lcount = vim.api.nvim_buf_line_count(0)
+          if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+          end
+        end,
+      })
+    '';
+  };
+
+  programs.vim = {
+    enable = false;
     defaultEditor = true;
     extraConfig = builtins.readFile ./.vimrc;
     plugins =
@@ -201,13 +238,10 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+
     matchBlocks = {
       "*.vjcbs.be" = {
         user = "vjacobs";
-      };
-      "u459705.your-storagebox.de" = {
-        user = "u459705";
-        port = 23;
       };
     };
   };
