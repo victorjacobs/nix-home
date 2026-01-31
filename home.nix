@@ -17,27 +17,30 @@
     ./modules/editorconfig.nix
   ];
 
-  home.packages = with pkgs; [
-    ripgrep
-    jq
-    yq-go
-    eza
-    diff-so-fancy
-    tldr
-    kubectl
-  ];
+  home = {
+    packages = with pkgs; [
+      ripgrep
+      fzf
+      jq
+      yq-go
+      eza
+      diff-so-fancy
+      tldr
+      kubectl
+    ];
 
-  # $PATH
-  home.sessionPath = [
-    "$HOME/bin"
-    "$HOME/go/bin"
-  ];
+    # $PATH
+    sessionPath = [
+      "$HOME/bin"
+      "$HOME/go/bin"
+    ];
 
-  # Environment variables
-  home.sessionVariables = {
-    GOPATH = "$HOME/go";
-    SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    # Environment variables
+    sessionVariables = {
+      GOPATH = "$HOME/go";
+      SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    };
+
+    stateVersion = "25.11";
   };
-
-  home.stateVersion = "25.11";
 }
