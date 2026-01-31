@@ -5,10 +5,6 @@
   ...
 }:
 
-let
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
-in
 {
   programs.home-manager.enable = true;
 
@@ -18,9 +14,8 @@ in
     ./modules/git.nix
     ./modules/ssh.nix
     ./modules/vim.nix
+    ./modules/editorconfig.nix
   ];
-
-  home.file.".editorconfig".source = ./.editorconfig;
 
   home.packages = with pkgs; [
     ripgrep
