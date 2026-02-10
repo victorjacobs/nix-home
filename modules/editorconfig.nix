@@ -15,7 +15,7 @@
         indent_style = "tab";
         indent_size = 2;
       };
-      "*.{json,md,yaml,yml,js,rb,lua,nix}" = {
+      "*.{json,md,yaml,yml,js,rb,lua,nix,proto}" = {
         indent_size = 2;
       };
     };

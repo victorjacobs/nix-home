@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }:
 
@@ -17,8 +16,11 @@
     ./modules/editorconfig.nix
   ];
 
+  news.display = "silent";
+
   home = {
     packages = with pkgs; [
+      nh
       ripgrep
       fzf
       jq

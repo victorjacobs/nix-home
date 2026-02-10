@@ -21,11 +21,20 @@
       sharedModules = [
         ./home.nix
       ];
+
+      macPkgs = nixpkgs.legacyPackages.aarch64-darwin;
     in
     {
+      devShells.aarch64-darwin.default = macPkgs.mkShell {
+        packages = with macPkgs; [
+          nil
+          nixpkgs-fmt
+        ];
+      };
+
       homeConfigurations = {
         "vjacobs-mac" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          pkgs = macPkgs;
           modules = sharedModules ++ [
             {
               home.username = "victor";
