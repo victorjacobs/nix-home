@@ -1,9 +1,6 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   isDarwin = pkgs.stdenv.isDarwin;
-in
-{
+in {
   programs.zsh = {
     enable = true;
 
@@ -25,7 +22,9 @@ in
       ls = "eza -l";
       k = "kubectl";
       tailscale =
-        if isDarwin then "/Applications/Tailscale.app/Contents/MacOS/Tailscale" else "tailscale";
+        if isDarwin
+        then "/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+        else "tailscale";
     };
 
     enableCompletion = true;
@@ -35,7 +34,11 @@ in
     initContent = ''
       # Custom Functions
       function hm () {
-          home-manager --flake ~/dev/nix-home#vjacobs-${if isDarwin then "mac" else "linux"} $@
+          home-manager --flake ~/dev/nix-home#vjacobs-${
+        if isDarwin
+        then "mac"
+        else "linux"
+      } $@
       }
 
       function gir () {

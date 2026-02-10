@@ -1,15 +1,11 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   isDarwin = pkgs.stdenv.isDarwin;
-in
-{
+in {
   programs.vim = {
     enable = false;
     defaultEditor = true;
 
-    plugins =
-      with pkgs.vimPlugins;
+    plugins = with pkgs.vimPlugins;
       [
         vim-commentary
         lightline-vim
@@ -30,25 +26,24 @@ in
         })
       ]
       ++ (
-        if isDarwin then
-          [
-            vim-expand-region
-            fzf-vim
-            vim-multiple-cursors
-            vim-gitgutter
-            vim-go
-            vim-fugitive
-            nerdtree-git-plugin
-            undotree
-            ale
-            csv-vim
-            vim-polyglot
-            vim-unimpaired
-            vim-endwise
-            ctrlp-vim
-          ]
-        else
-          [ ]
+        if isDarwin
+        then [
+          vim-expand-region
+          fzf-vim
+          vim-multiple-cursors
+          vim-gitgutter
+          vim-go
+          vim-fugitive
+          nerdtree-git-plugin
+          undotree
+          ale
+          csv-vim
+          vim-polyglot
+          vim-unimpaired
+          vim-endwise
+          ctrlp-vim
+        ]
+        else []
       );
 
     extraConfig = ''
