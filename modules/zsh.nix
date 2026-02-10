@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  isDarwin = pkgs.stdenv.isDarwin;
+  inherit (pkgs.stdenv) isDarwin;
 in {
   programs.zsh = {
     enable = true;

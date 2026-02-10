@@ -25,6 +25,7 @@
       packages = with macPkgs; [
         nil
         alejandra
+        statix
       ];
     };
 
