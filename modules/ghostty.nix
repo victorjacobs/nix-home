@@ -2,6 +2,8 @@
   xdg.configFile."ghostty/config".text = ''
     auto-update-channel = tip
 
+    mouse-hide-while-typing = true
+
     # Font
     font-family = MesloLGS NF
     font-size = 13
@@ -30,5 +32,8 @@
     # Cursor
     cursor-style = block
     cursor-style-blink = false
+
+    # Keybind
+    keybind = super+k=clear_screen
   '';
 }
