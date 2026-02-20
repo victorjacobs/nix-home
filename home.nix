@@ -12,6 +12,7 @@
     ./modules/ssh.nix
     ./modules/vim.nix
     ./modules/editorconfig.nix
+    ./modules/ghostty.nix
   ];
 
   news.display = "silent";
