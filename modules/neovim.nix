@@ -15,6 +15,9 @@
       (pluginWithConfig nvim-autopairs ''
         require('nvim-autopairs').setup()
       '')
+      (pluginWithConfig gitsigns-nvim ''
+        require('gitsigns').setup()
+      '')
       (pluginWithConfig (nvim-treesitter.withPlugins (p: [
           p.nix
           p.lua
