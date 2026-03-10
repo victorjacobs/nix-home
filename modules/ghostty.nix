@@ -1,6 +1,6 @@
 {...}: {
   xdg.configFile."ghostty/config".text = ''
-    auto-update-channel = tip
+    auto-update-channel = stable
 
     mouse-hide-while-typing = true
 
