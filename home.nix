@@ -5,6 +5,8 @@
 }: {
   programs.home-manager.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+
   imports = [
     ./modules/zsh.nix
     ./modules/neovim.nix
@@ -27,7 +29,15 @@
       eza
       diff-so-fancy
       tldr
-      kubectl
+      claude-code
+
+      (pkgs.writeShellScriptBin "zed" ''
+        /Applications/Zed.app/Contents/MacOS/cli "$@"
+      '')
+
+      (pkgs.writeShellScriptBin "code" ''
+        /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@"
+      '')
     ];
 
     # $PATH
