@@ -85,6 +85,8 @@
     ];
 
     extraLuaConfig = ''
+      vim.opt.number = true
+      vim.opt.signcolumn = "yes"
       vim.opt.cursorline = true
       vim.opt.tabstop = 4
       vim.opt.shiftwidth = 4
@@ -94,6 +96,8 @@
       vim.opt.ignorecase = true
       vim.opt.smartcase = true
       vim.opt.breakindent = true
+      vim.opt.clipboard = "unnamedplus"
+      vim.opt.fillchars = { eob = " " }
 
       -- Return to last edit position when opening files
       vim.api.nvim_create_autocmd("BufReadPost", {
