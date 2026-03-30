@@ -37,6 +37,12 @@
             },
           }
         '')
+      (pluginWithConfig nvim-treesitter-context ''
+        require("treesitter-context").setup({
+          max_lines = 3,
+          trim_scope = "outer",
+        })
+      '')
       (pluginWithConfig telescope-nvim ''
         local builtin = require('telescope.builtin')
 
