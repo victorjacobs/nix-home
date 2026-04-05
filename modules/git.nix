@@ -25,7 +25,7 @@ _: {
 
       push.default = "current";
       url."git@github.com:".insteadOf = "https://github.com/";
-      pull.rebase = false;
+      pull.rebase = true;
     };
   };
 }
