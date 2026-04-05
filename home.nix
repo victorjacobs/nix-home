@@ -20,25 +20,28 @@
   news.display = "silent";
 
   home = {
-    packages = with pkgs; [
-      nh
-      ripgrep
-      fzf
-      jq
-      yq-go
-      eza
-      diff-so-fancy
-      tldr
-      claude-code
+    packages = with pkgs;
+      [
+        nh
+        ripgrep
+        fzf
+        jq
+        yq-go
+        eza
+        diff-so-fancy
+        tldr
+      ]
+      ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+        claude-code
 
-      (pkgs.writeShellScriptBin "zed" ''
-        /Applications/Zed.app/Contents/MacOS/cli "$@"
-      '')
+        (pkgs.writeShellScriptBin "zed" ''
+          /Applications/Zed.app/Contents/MacOS/cli "$@"
+        '')
 
-      (pkgs.writeShellScriptBin "code" ''
-        /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@"
-      '')
-    ];
+        (pkgs.writeShellScriptBin "code" ''
+          /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@"
+        '')
+      ];
 
     # $PATH
     sessionPath = [
