@@ -5,8 +5,6 @@
 }: {
   programs.home-manager.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
   imports = [
     ./modules/zsh.nix
     ./modules/neovim.nix

@@ -19,7 +19,10 @@
       ./home.nix
     ];
 
-    macPkgs = nixpkgs.legacyPackages.aarch64-darwin;
+    macPkgs = import nixpkgs {
+      system = "aarch64-darwin";
+      config.allowUnfree = true;
+    };
   in {
     devShells.aarch64-darwin.default = macPkgs.mkShell {
       packages = with macPkgs; [
@@ -43,7 +46,10 @@
       };
 
       "vjacobs-linux" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
         modules =
           sharedModules
           ++ [
