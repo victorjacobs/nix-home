@@ -31,6 +31,8 @@ in {
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
+    setOptions = ["NO_NOMATCH"];
+
     initContent = ''
       # Custom Functions
       function hm () {
