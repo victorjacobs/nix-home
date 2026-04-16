@@ -5,6 +5,15 @@
 }: {
   programs.home-manager.enable = true;
 
+  # Override direnv to skip tests (they fail on macOS)
+  nixpkgs.overlays = [
+    (final: prev: {
+      direnv = prev.direnv.overrideAttrs (old: {
+        doCheck = false;
+      });
+    })
+  ];
+
   imports = [
     ./modules/zsh.nix
     ./modules/neovim.nix
