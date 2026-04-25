@@ -19,9 +19,19 @@
       ./home.nix
     ];
 
+    # Override direnv to skip tests (they fail on macOS)
+    sharedOverlays = [
+      (final: prev: {
+        direnv = prev.direnv.overrideAttrs (_old: {
+          doCheck = false;
+        });
+      })
+    ];
+
     macPkgs = import nixpkgs {
       system = "aarch64-darwin";
       config.allowUnfree = true;
+      overlays = sharedOverlays;
     };
   in {
     devShells.aarch64-darwin.default = macPkgs.mkShell {
@@ -49,6 +59,7 @@
         pkgs = import nixpkgs {
           system = "x86_64-linux";
           config.allowUnfree = true;
+          overlays = sharedOverlays;
         };
         modules =
           sharedModules
