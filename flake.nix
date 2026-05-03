@@ -4,6 +4,10 @@
       url = "github:nixos/nixpkgs/nixos-25.11";
     };
 
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,30 +16,31 @@
 
   outputs = {
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     ...
   }: let
-    sharedModules = [
-      ./home.nix
-    ];
+    system = "aarch64-darwin";
 
-    # Override direnv to skip tests (they fail on macOS)
-    sharedOverlays = [
-      (final: prev: {
-        direnv = prev.direnv.overrideAttrs (_old: {
-          doCheck = false;
-        });
-      })
-    ];
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [
+        (final: prev: {
+          # Override direnv to skip tests (they fail on macOS)
+          direnv = prev.direnv.overrideAttrs (_old: {
+            doCheck = false;
+          });
+        })
+      ];
+    };
 
-    macPkgs = import nixpkgs {
-      system = "aarch64-darwin";
+    pkgsUnstable = import nixpkgs-unstable {
+      inherit system;
       config.allowUnfree = true;
-      overlays = sharedOverlays;
     };
   in {
-    devShells.aarch64-darwin.default = macPkgs.mkShell {
-      packages = with macPkgs; [
+    devShells.aarch64-darwin.default = pkgs.mkShell {
+      packages = with pkgs; [
         nil
         alejandra
         statix
@@ -44,29 +49,18 @@
 
     homeConfigurations = {
       "vjacobs-mac" = home-manager.lib.homeManagerConfiguration {
-        pkgs = macPkgs;
+        inherit pkgs;
+
+        extraSpecialArgs = {
+          inherit pkgsUnstable;
+        };
+
         modules =
-          sharedModules
+          [./home.nix]
           ++ [
             {
               home.username = "victor";
               home.homeDirectory = "/Users/victor";
-            }
-          ];
-      };
-
-      "vjacobs-linux" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          overlays = sharedOverlays;
-        };
-        modules =
-          sharedModules
-          ++ [
-            {
-              home.username = "vjacobs";
-              home.homeDirectory = "/home/vjacobs";
             }
           ];
       };

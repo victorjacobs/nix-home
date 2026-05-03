@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgsUnstable,
   ...
 }: {
   programs.home-manager.enable = true;
@@ -29,14 +30,15 @@
         diff-so-fancy
         tldr
       ]
-      ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-        claude-code
+      ++ lib.optionals stdenv.isDarwin [
+        pkgsUnstable.claude-code
+        pkgsUnstable.codex
 
-        (pkgs.writeShellScriptBin "zed" ''
+        (writeShellScriptBin "zed" ''
           /Applications/Zed.app/Contents/MacOS/cli "$@"
         '')
 
-        (pkgs.writeShellScriptBin "code" ''
+        (writeShellScriptBin "code" ''
           /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@"
         '')
       ];
