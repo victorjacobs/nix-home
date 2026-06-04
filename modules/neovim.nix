@@ -6,6 +6,9 @@
     vimAlias = true;
     vimdiffAlias = true;
 
+    withRuby = false;
+    withPython3 = false;
+
     plugins = with pkgs.vimPlugins; let
       pluginWithConfig = plugin: config: {
         inherit plugin config;
@@ -90,7 +93,7 @@
       '')
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       vim.opt.number = true
       vim.opt.signcolumn = "yes"
       vim.opt.cursorline = true

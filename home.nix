@@ -31,8 +31,8 @@
         tldr
       ]
       ++ lib.optionals stdenv.isDarwin [
-        pkgsUnstable.claude-code
-        pkgsUnstable.codex
+        # pkgsUnstable.claude-code
+        # pkgsUnstable.codex
 
         (writeShellScriptBin "zed" ''
           /Applications/Zed.app/Contents/MacOS/cli "$@"
