@@ -29,9 +29,11 @@
         eza
         diff-so-fancy
         tldr
+        fx
       ]
       ++ lib.optionals stdenv.isDarwin [
         pkgsUnstable.codex
+        pkgsUnstable.claude-code
 
         (writeShellScriptBin "zed" ''
           /Applications/Zed.app/Contents/MacOS/cli "$@"
