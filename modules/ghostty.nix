@@ -26,7 +26,7 @@
 
     # Behavior
     copy-on-select = false
-    confirm-close-surface = false
+    confirm-close-surface = true
     shell-integration = zsh
 
     # Cursor
