@@ -34,6 +34,8 @@ in {
     setOptions = ["NO_NOMATCH"];
 
     initContent = ''
+      ulimit -n 65536
+
       # Custom Functions
       function hm () {
           home-manager --flake ~/dev/nix-home#vjacobs-${
