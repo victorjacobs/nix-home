@@ -14,6 +14,7 @@
     ./modules/vim.nix
     ./modules/editorconfig.nix
     ./modules/ghostty.nix
+    ./modules/tmux.nix
   ];
 
   news.display = "silent";
