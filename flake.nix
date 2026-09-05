@@ -25,7 +25,7 @@
     pkgs = import nixpkgs {
       inherit system;
       overlays = [
-        (final: prev: {
+        (_final: prev: {
           # Override direnv to skip tests (they fail on macOS)
           direnv = prev.direnv.overrideAttrs (_old: {
             doCheck = false;
@@ -37,6 +37,9 @@
     pkgsUnstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
+      overlays = [
+        (import ./overlays/codex.nix)
+      ];
     };
   in {
     devShells.aarch64-darwin.default = pkgs.mkShell {
@@ -51,9 +54,7 @@
       "vjacobs-mac" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        extraSpecialArgs = {
-          inherit pkgsUnstable;
-        };
+        extraSpecialArgs = {inherit pkgsUnstable;};
 
         modules =
           [./home.nix]
