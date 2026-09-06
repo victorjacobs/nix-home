@@ -15,6 +15,7 @@
     ./modules/editorconfig.nix
     ./modules/ghostty.nix
     ./modules/tmux.nix
+    ./modules/codex
   ];
 
   news.display = "silent";
