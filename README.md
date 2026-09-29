@@ -9,10 +9,12 @@ Codex is overlaid in `overlays/codex.nix` so it can be updated independently of
 nixpkgs. The overlay supports Apple Silicon macOS (`aarch64-darwin`) and Linux
 amd64 (`x86_64-linux`).
 
-To update it, change the version and update `hash` and `codeModeHostHash` for
-each platform in `releases`. Fetch each platform's `codex` and
-`codex-code-mode-host` archives with `nix store prefetch-file --json <release-url>`
-and use the returned hashes. Then run the switch command below on macOS.
+To update it, change the version and update `hash` for each platform in
+`releases`. Fetch each platform's `codex-package-<target>.tar.gz` archive with
+`nix store prefetch-file --json <release-url>` and use the returned hashes.
+Keep the complete package layout: daemon startup requires its manifest and
+bundled tools, not just the CLI executable. Then run the switch command below
+on macOS.
 
 ```bash
 home-manager switch --flake .#vjacobs-mac
