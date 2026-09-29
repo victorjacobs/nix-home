@@ -18,6 +18,12 @@ and use the returned hashes. Then run the switch command below on macOS.
 home-manager switch --flake .#vjacobs-mac
 ```
 
+## Codex skills
+
+Add skills under `modules/codex/skills/<skill-name>/SKILL.md`. Home Manager
+links these into `~/.codex/skills` when you run the switch command above.
+Other locally installed skills can coexist in that directory.
+
 ## tmux for remote Codex sessions
 
 Run tmux on the remote machine so Codex keeps running when SSH disconnects:
